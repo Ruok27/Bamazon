@@ -150,8 +150,33 @@ Price: $${res[0].price}
 Quantity: ${res[0].stock_quantity}
 ========================
 `);
+
+
+if ( answers.quantityInput <  res[0].stock_quantity){
+
+
+
+
+
+    console.log("Thank you your puchase has been finalized")
+
+
+
+
+}
+
+else{
+
+console.log("Your requested quantity exceeds our current stock")
+
+}
+
+
+
 connection.end();
 })
+
+
 
 
 
