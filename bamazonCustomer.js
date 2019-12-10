@@ -1,13 +1,86 @@
 const inquirer  = require("inquirer");
 const mysql = require("mysql");
 
+
+
+
+
+
+
+
+
+
+
+
+const welcome = () => {
+
+
+
+
+    const connection = mysql.createConnection({
+
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "password123",
+        database: "bamazon"
+        
+        
+        });
+
+
+    const query = connection.query(
+        "SELECT * FROM products",(err, res)=>{ 
+        
+        if (err) throw err;
+
+        for (let i = 0 ; i < res.length; i++){
+        console.log(
+        `
+        ========================
+        Item ID: ${res[i].item_id}
+        Product Name: ${res[i].product_name}
+        Department: ${res[i].department}
+        Price: $${res[i].price}
+        Quantity: ${res[i].stock_quantity}
+        ========================
+        `);
+
+    }
+
+    
+        connection.end();
+        })
+
+
+
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+welcome();
+
 inquirer.prompt([
 
 
 {
 
 type: "input",
-message: "Please enter ID of product you would like to purchase",
+message: `
+Welcome to Bamazon. Scroll up to browse our inventory;
+Please enter ID of product you would like to purchase`,
 name: "idInput"
 
 }, 
@@ -55,7 +128,7 @@ connection.connect (err => {
 if (err) throw err;
 
 console.log(`connected as id ${connection.threadId}`);
-  connection.end();
+  
 
 
 
@@ -64,10 +137,19 @@ console.log(`connected as id ${connection.threadId}`);
 
 
 const query = connection.query(
-"SELECT * FROM products", (err, res)=>{ 
+"SELECT * FROM products WHERE ?", {item_id: `${answers.idInput}`} ,(err, res)=>{ 
 
 if (err) throw err;
-console.log(res);
+console.log(
+`
+========================
+Item ID: ${res[0].item_id}
+Product Name: ${res[0].product_name}
+Department: ${res[0].department}
+Price: $${res[0].price}
+Quantity: ${res[0].stock_quantity}
+========================
+`);
 connection.end();
 })
 
@@ -84,3 +166,6 @@ connection.end();
 
 }    
     )
+
+
+    
