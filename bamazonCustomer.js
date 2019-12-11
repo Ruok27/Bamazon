@@ -152,13 +152,172 @@ Quantity: ${res[0].stock_quantity}
 `);
 
 
-if ( answers.quantityInput <  res[0].stock_quantity){
+if ( answers.quantityInput <=  res[0].stock_quantity){
 
 
 
 
 
-    console.log("Thank you your puchase has been finalized")
+
+
+
+
+
+
+
+
+
+
+    const connection = mysql.createConnection({
+
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "password123",
+        database: "bamazon"
+        
+        
+        });
+        
+        
+        connection.connect (err => {
+        
+        if (err) throw err;
+        
+        console.log(`connected as id ${connection.threadId}`);
+          
+        
+        
+        
+        })
+        
+        
+        
+        connection.query(
+        "UPDATE products SET ? WHERE ?", [{stock_quantity: `stock_quantity - ${answers.quantityInput}`}, {item_id: `${answers.idInput}`}],(err, res)=>{ 
+        
+        if (err) throw err;
+        console.log(
+        `
+        ========================
+        Item ID: ${res[0].item_id}
+        Product Name: ${res[0].product_name}
+        Department: ${res[0].department}
+        Price: $${res[0].price}
+        Quantity: ${res[0].stock_quantity}
+        ========================
+        `);
+
+
+
+        console.log(res.affectedRows + " products updated!\n");
+        console.log(query.sql);
+        
+        
+        
+        
+        
+        
+        connection.end();
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    console.log("Thank you! The purchase has been finalized. Your total comes to $"+ (res[0].price * answers.quantityInput));
 
 
 
