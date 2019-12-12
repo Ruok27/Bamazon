@@ -194,7 +194,7 @@ if ( answers.quantityInput <=  res[0].stock_quantity){
         
         
         connection.query(
-        "UPDATE products SET ? WHERE ?", [{stock_quantity: `stock_quantity - ${answers.quantityInput}`}, {item_id: `${answers.idInput}`}],(err, res)=>{ 
+        "UPDATE products SET ? WHERE ?", [{stock_quantity: res[0].stock_quantity - answers.quantityInput}, {item_id: answers.idInput}],(err, res)=>{ 
         
         if (err) throw err;
         console.log(
@@ -210,8 +210,7 @@ if ( answers.quantityInput <=  res[0].stock_quantity){
 
 
 
-        console.log(res.affectedRows + " products updated!\n");
-        console.log(query.sql);
+       
         
         
         
